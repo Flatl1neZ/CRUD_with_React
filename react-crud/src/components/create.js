@@ -1,41 +1,48 @@
 import React, { useState } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
+import axios from "axios";
+import "../App.css";
+import { Link } from "react-router-dom";
 
 export default function Create() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
   const postData = () => {
-    console.log(firstName);
-    console.log(lastName);
-    console.log(checkbox);
+    axios.post("http://localhost:8080/api/post", {
+      email,
+      password,
+      checkbox,
+    });
   };
+
   return (
     <div>
       <Form className="create-form">
         <Form.Field>
-          <label>First Name</label>
-          <input
-            placeholder="First Name"
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+          <label>E-mail</label>
+          <input onChange={(e) => setEmail(e.target.value)} />
         </Form.Field>
         <Form.Field>
-          <label>Last Name</label>
+          <label>Password</label>
           <input
-            placeholder="Last Name"
-            onChange={(e) => setLastName(e.target.value)}
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Field>
         <Form.Field>
           <Checkbox
             label="I agree to the Terms and Conditions"
-            onChange={(e) => setCheckbox(!checkbox)}
+            onChange={() => setCheckbox(!checkbox)}
           />
         </Form.Field>
-        <Button onClick={postData} type="submit">
-          Submit
-        </Button>
+        <Form.Field className="alignButton">
+          <Link to="/read">
+            <Button onClick={postData} type="submit">
+              Submit
+            </Button>
+          </Link>
+        </Form.Field>
       </Form>
     </div>
   );
